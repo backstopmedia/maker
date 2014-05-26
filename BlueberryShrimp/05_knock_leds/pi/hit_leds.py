@@ -74,7 +74,7 @@ def launch_fly():
 # Look for addresses with these device names 
 serialnames = ['linvor','HC-06', 'Slinky']
 
-# Connect to bluetooth devices, filtering by name 
+# Connect both readers and writer to bluetooth UARTs, filtering by name 
 def connect_available_links():
     return [ 
         connect_link(address) for address in discover_devices() 

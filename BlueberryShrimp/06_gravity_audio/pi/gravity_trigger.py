@@ -27,7 +27,7 @@ class Hotspot:
                     )
                 )
 
-	# refresh the angle with a new update of accelerometer data
+    # refresh the angle with a new update of accelerometer data
     def update(self, sensor_matrix):
         self.angle = self.get_angle(sensor_matrix)
         if self.is_hot():
@@ -44,7 +44,7 @@ class Hotspot:
                 self.active = False
     
     def is_hot(self):
-		return self.angle < 30
+        return self.angle < 30
                 
 spots = [
     Hotspot([0,0,1],  '/usr/share/sounds/alsa/Front_Center.wav' ),
