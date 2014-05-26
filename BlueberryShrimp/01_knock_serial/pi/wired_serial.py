@@ -6,5 +6,5 @@ def sensor_loop(connection):
         line = line.strip()
         print line
 
-wiredserial = Serial('/dev/ttyACM0')
+wiredserial = Serial('/dev/ttyUSB0')
 sensor_loop(wiredserial)
