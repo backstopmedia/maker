@@ -55,27 +55,31 @@ spots = [
     Hotspot([-1,0,0], '/usr/share/sounds/alsa/Rear_Right.wav'   )
 ]
 
-def connect_sensor(address, modes=("r","w")):
+# Look for addresses with these device names 
+serialnames = ['linvor','HC-06', 'Slinky']
+
+# List bluetooth devices, filtering by name 
+def list_available_addresses():
+    return [ 
+        address for address in discover_devices() 
+        if lookup_name(address) in serialnames
+    ]
+
+def connect_link(address, modes=("r","w")):
+    print("Connecting to " + address)
     port = 1    # Guess port (workaround unreadable service record)
     config = (address, port)
     sock = BluetoothSocket()                    
     sock.connect(config)
     return [sock.makefile(mode,0) for mode in modes]
 
-# Look for addresses with these device names 
-serialnames = ['linvor','HC-06', 'Slinky']
-
-# Detect bluetooth devices, filtering by name 
-addresses = [ 
-    address for address in discover_devices() 
-    if lookup_name(address) in serialnames
-]
+addresses = list_available_addresses()
 
 # Set up multiple serial streams, managed by their own thread
-if len(sensors) > 0:
+if len(addresses) > 0:
 
     # connect to first sensor
-    (reader,writer) = connect_sensor(addresses[0]) 
+    (reader,writer) = connect_link(addresses[0]) 
 
     
     while True:
