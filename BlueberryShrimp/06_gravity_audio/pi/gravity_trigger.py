@@ -8,18 +8,14 @@ mixer.init(frequency=22050, size=-16, channels=2, buffer=512) # config to minimi
 
 from bluetooth import *
 
-def default_test(spot):
-    return spot.angle < 30
-
 # create hotspot class which triggers sounds based on angle between current vector and target vector    
 class Hotspot:
 
-    def __init__(self, vector, path, test=default_test):
+    def __init__(self, vector, path):
         self.vector = vector
         self.path = path
-        self.test = test
         self.matrix = numpy.array(vector)      # turns vector information into matrix for math
-        self.sound = pygame.mixer.Sound(path)  # turns filepaths into playable samples
+        self.sound = mixer.Sound(path)  # turns filepaths into playable samples
         self.active = False
     
     # dot_product of vectors divided by product of magnitude is the cosine of the angle between them
@@ -31,20 +27,24 @@ class Hotspot:
                     )
                 )
 
+	# refresh the angle with a new update of accelerometer data
     def update(self, sensor_matrix):
         self.angle = self.get_angle(sensor_matrix)
-        if self.test():
-            # hotspot should not be active
-            if self.active:
-                print "Activate  :", self.vector
-                self.sound.stop()
-                self.active = False
-        else:
+        if self.is_hot():
             # hotspot should be active
             if not(self.active):
-                print "Deactivate:", self.vector
+                print "Activate:", self.vector
                 self.sound.play()
                 self.active = True
+        else:
+            # hotspot should not be active
+            if self.active:
+                print "Deactivate  :", self.vector
+                self.sound.stop()
+                self.active = False
+    
+    def is_hot(self):
+		return self.angle < 30
                 
 spots = [
     Hotspot([0,0,1],  '/usr/share/sounds/alsa/Front_Center.wav' ),
@@ -89,7 +89,7 @@ if len(addresses) > 0:
             if(line[0:2]=="A:"): # detect prefix
                 line = line[2:] # remove prefix
                 vals = line.split(',') # separate text at commas into values 
-                vals = [int(val) for val in vals] # turn text values into integer number values
+                vals = [float(val) for val in vals] # turn text values into integer number values
                 matrix = numpy.array(vals)  # turn number values into a matrix
                 for spot in spots:
                     spot.update(matrix)
