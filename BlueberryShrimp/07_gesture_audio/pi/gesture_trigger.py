@@ -73,6 +73,7 @@ faces = [
 
 cone = 30
 
+# Right wrist, Left wrist, both palm downwards
 def test_keyboard(left_wrist, right_wrist, left_thigh=BACKSIDE_DOWN):
     return (
         get_angle(right_wrist, DOWNSIDE_DOWN) < cone 
@@ -80,25 +81,23 @@ def test_keyboard(left_wrist, right_wrist, left_thigh=BACKSIDE_DOWN):
         get_angle(left_wrist, DOWNSIDE_DOWN) < cone
     )
 
-def test_kickdrum(left_wrist, right_wrist, left_thigh=BACKSIDE_DOWN):
-    return (
-        get_angle(left_thigh,BACKSIDE_DOWN) > cone
-    )
-
+# Right wrist across chest, palm backward, Left wrist palm backward
 def test_bass(left_wrist, right_wrist, left_thigh=BACKSIDE_DOWN):
-    return (
-        get_angle(right_wrist, RIGHTSIDE_DOWN) < cone 
-            and
-        get_angle(left_wrist, UPSIDE_DOWN) < cone
-    )
-
-def test_guitar(left_wrist, right_wrist, left_thigh=BACKSIDE_DOWN):
     return (
         get_angle(right_wrist, RIGHTSIDE_DOWN) < cone 
             and
         get_angle(left_wrist, FRONTSIDE_DOWN) < cone
     )
 
+# Right wrist across chest palm backward, Left wrist palm upward    
+def test_guitar(left_wrist, right_wrist, left_thigh=BACKSIDE_DOWN):
+    return (
+        get_angle(right_wrist, RIGHTSIDE_DOWN) < cone 
+            and
+        get_angle(left_wrist, UPSIDE_DOWN) < cone
+    )
+
+# Left wrist and Right wrist each with palm angled 45 degrees down
 def test_horns(left_wrist, right_wrist, left_thigh=BACKSIDE_DOWN):
     target_vector = between(FRONTSIDE_DOWN,DOWNSIDE_DOWN)
     return (
@@ -107,6 +106,7 @@ def test_horns(left_wrist, right_wrist, left_thigh=BACKSIDE_DOWN):
         get_angle(left_wrist, target_vector) < cone
     )
 
+# Left wrist across chest, palm backwards, Right wrist downward, palm backwards
 def test_handdrum(left_wrist, right_wrist, left_thigh=BACKSIDE_DOWN):
     return (
         get_angle(right_wrist, BACKSIDE_DOWN) < cone 
@@ -114,24 +114,20 @@ def test_handdrum(left_wrist, right_wrist, left_thigh=BACKSIDE_DOWN):
         get_angle(left_wrist, LEFTSIDE_DOWN) < cone
     )
 
+# Right thigh at 45 degrees
+def test_kickdrum(left_wrist, right_wrist, left_thigh=BACKSIDE_DOWN):
+    return (
+        get_angle(left_thigh,BACKSIDE_DOWN) > cone
+    )
+
 # intro sequence is organ, drums (cymbals), tambourine, lead guitar 
 synths = [
-    # Right wrist, Left wrist, both palm downwards
     Synth("./tracks/Organ, Electric Piano.wav", test_keyboard), 
-    # Right thigh at 45 degrees
-    Synth("./tracks/Drums.wav", test_kickdrum),
-    # Right wrist across chest, Left wrist 45 degrees palm upwards
     Synth("./tracks/Bass.wav", test_bass), 
-    # Right wrist across chest, Left wrist 45 degrees palm backwards    
     Synth("./tracks/Guitar.wav", test_guitar),
-    # Left wrist+Right wrist:  palm angled 45 degrees down
     Synth("./tracks/Strings, French Horns.wav", test_horns),
-    # Left wrist+Right wrist:  vertical
-    Synth("./tracks/Tambourine, Congas.wav", test_handdrum)
-
-    #   Vocals are ignored
-    #   Synth("Lead Vocals.wav", test_singer),
-    #   Synth("Voices.wav", test_chorus),
+    Synth("./tracks/Tambourine, Congas.wav", test_handdrum),
+    Synth("./tracks/Drums.wav", test_kickdrum)
 ]
 
 # stores sensed gravity vectors and updates program state
