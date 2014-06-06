@@ -1,7 +1,5 @@
 import math
 import numpy
-import glob
-import pdb
 
 from threading import Thread
 
@@ -29,12 +27,15 @@ class Synth:
                 if not self.active:
                     print "Activating " + self.path
                     self.active = True
-                    self.sound.set_volume(1)
+                    self.set_volume(1)
             else:
                 if self.active:
                     print "Deactivating " + self.path
                     self.active = False
-                    self.sound.set_volume(0)
+                    self.set_volume(0)
+
+    def set_volume(vol):
+        self.sound.set_volume(vol)
 
 # returns average of several vectors
 def between(*vectors):
