@@ -1,5 +1,5 @@
 from pygame import mixer
-mixer.init(frequency=22050, size=-16, channels=2, buffer=512) # config to minimise delays
+mixer.init(frequency=22050, size=-16, channels=2, buffer=512) # minimises delays
 
 from bluetooth import *
 
@@ -17,7 +17,7 @@ serialnames = ['linvor','HC-06', 'Slinky']
 # Detect bluetooth devices, filtering by name 
 for address in discover_devices():          # examine each device
     if lookup_name(address) in serialnames: # check its name against the list
-        port = 1                            # Guess the port (this is a workaround for unreadable RFCOMM service record)
+        port = 1                            # Guess the port (unreadable RFCOMM)
         config = (address, port)            # store the address and port
         sock = BluetoothSocket()
         sock.connect(config)

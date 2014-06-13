@@ -4,7 +4,7 @@ import numpy
 from threading import Thread
 
 from pygame import mixer
-mixer.init(frequency=22050, size=-16, channels=2, buffer=512) # config to minimise delays
+mixer.init(frequency=22050, size=-16, channels=2, buffer=512) # minimises delays
 from bluetooth import *
 from time import sleep
 
@@ -41,7 +41,7 @@ class Synth:
 def between(*vectors):
     return numpy.array([sum(col) / len(vectors) for col in zip(*vectors)])
 
-# dot_product of vectors divided by product of magnitude is the cosine of the angle between them
+# vector dot_product divided by product of magnitude=cosine of angle between 
 def get_angle(matrix, othermatrix):
     return math.degrees(
         math.acos(
@@ -161,10 +161,10 @@ def connect_link(address, modes=("r","w")):
 def reader_loop(reader, index):
     while True:
         line = reader.readline().strip()
-        if(line[0:2]=="A:"): # detect prefix
-            line = line[2:] # remove prefix
-            vals = [float(val) for val in line.split(',')] # extract comma-separated values
-            update_vector(index, numpy.array(vals))  # turn number values into a vector
+        if(line[0:2]=="A:"):                           # detect prefix
+            line = line[2:]                            # remove prefix
+            vals = [float(val) for val in line.split(',')] #split text at commas
+            update_vector(index, numpy.array(vals))    #turn numbers into matrix
 
 # keep searching until there are enough to link to 
 while True:    
@@ -187,7 +187,7 @@ for (index, (reader, writer)) in enumerate(links):
         target=reader_loop,
         args=(reader, index)
     )
-    thread.daemon = True    # stop if main thread stops
+    thread.daemon = True                # stop if main thread stops
     thread.start()
     
 # trigger sounds on a loop

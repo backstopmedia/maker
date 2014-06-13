@@ -4,7 +4,7 @@ from time import time, sleep
 from threading import Thread
 
 from pygame import mixer
-mixer.init(frequency=22050, size=-16, channels=2, buffer=512) # config to minimise delays
+mixer.init(frequency=22050, size=-16, channels=2, buffer=512) # minimises delays
 
 from bluetooth import *
 
