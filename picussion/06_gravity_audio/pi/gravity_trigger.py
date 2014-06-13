@@ -21,11 +21,13 @@ class Hotspot:
     # dot_product of vectors divided by product of magnitude is the cosine of the angle between them
     def get_angle(self, othermatrix): 
         return math.degrees(
-                    math.acos( 
-                        self.matrix.dot(othermatrix) / 
-                        (numpy.sqrt(self.matrix.dot(self.matrix)) * numpy.sqrt(othermatrix.dot(othermatrix))) 
-                    )
-                )
+            math.acos( 
+                self.matrix.dot(othermatrix) / (
+                    numpy.sqrt(self.matrix.dot(self.matrix)) * 
+                    numpy.sqrt(othermatrix.dot(othermatrix))
+                ) 
+            )
+        )
 
     # refresh the angle with a new update of accelerometer data
     def update(self, sensor_matrix):

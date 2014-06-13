@@ -53,23 +53,22 @@ def set_due(new_time):
     global event_due
     event_due = new_time
 
-                
 def splat_fly():
     fly_sound.stop()
     splat_sound.play()
     hide_fly()
 
-def land_fly():
-    set_location(randint(0,len(links) -1))
-    set_due(time() + uniform(*landing))
-
 def hide_fly():
     set_location(FLY_HIDING)
     set_due(time() + uniform(*hiding))
-    
+
 def launch_fly():    
     set_location(FLY_FLYING)
     set_due(time() + uniform(*flying))
+
+def land_fly():
+    set_location(randint(0,len(links) -1))
+    set_due(time() + uniform(*landing))
 
 # Look for addresses with these device names 
 serialnames = ['linvor','HC-06', 'Slinky']

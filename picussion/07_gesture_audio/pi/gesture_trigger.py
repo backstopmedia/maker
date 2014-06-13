@@ -34,7 +34,7 @@ class Synth:
                     self.active = False
                     self.set_volume(0)
 
-    def set_volume(vol):
+    def set_volume(self, vol):
         self.sound.set_volume(vol)
 
 # returns average of several vectors

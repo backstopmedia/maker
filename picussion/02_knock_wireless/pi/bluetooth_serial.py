@@ -11,7 +11,7 @@ serialnames = ['linvor','HC-06', 'Slinky']
 # Detect bluetooth devices, filtering by name 
 for address in discover_devices():          # examine each device
     if lookup_name(address) in serialnames: # check its name against the list
-        port = 1                            # Guess the port (this is a workaround for unreadable RFCOMM service record)
+        port = 1                            # Guess port, (saves service lookup)
         config = (address, port)            # store the address and port
         sock = BluetoothSocket()
         sock.connect(config)
